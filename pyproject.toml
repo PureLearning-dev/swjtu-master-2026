@@ -1,7 +1,7 @@
 [project]
-name = "mastergithubabouteverthing"
+name = "研究生期间记录仓库"
 version = "0.1.0"
-description = "Add your description here"
+description = "Notes, research, and projects from my Master's in Software Engineering at SWJTU (2026–2029)."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
