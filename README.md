@@ -2,18 +2,14 @@
   <img src="./image/README_LOGO.png" alt="PureLearning - Code · Learn · Inspire" width="100%"/>
 </div>
 
-<br/>
-
 <div align="center">
 
   <!-- 徽章区 -->
   ![GitHub stars](https://img.shields.io/github/stars/PureLearning-dev/swjtu-master-2026?style=flat-square&color=gold)
   ![GitHub forks](https://img.shields.io/github/forks/PureLearning-dev/swjtu-master-2026?style=flat-square&color=steelblue)
   ![Last commit](https://img.shields.io/github/last-commit/PureLearning-dev/swjtu-master-2026?style=flat-square)
-  
-</div>
 
----
+</div>
 
 > **"在探索中学习，在思考中成长，在记录中成为更好的自己。"**  
 > *Learn deeply. Think clearly. Live fully.*
