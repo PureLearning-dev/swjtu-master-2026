@@ -36,26 +36,77 @@ from threading import Thread
 #
 # print(f"It took {end - start} second(s) to complete.")
 
-def task(thread_id):
-    print(f"Starting->{thread_id}")
-    sleep(1)
-    print(f"Exiting->{thread_id}")
-
-threads = []
-
-start = perf_counter()
+# def task(thread_id):
+#     print(f"Starting->{thread_id}")
+#     sleep(1)
+#     print(f"Exiting->{thread_id}")
+#
+# threads = []
+#
+# start = perf_counter()
 
 # 创建 10 个线程放入并调用 start 方法
-for i in range(10):
-    threads.append(Thread(target=task, args=(i,)))
-    threads[i].start()
+# for i in range(10):
+#     threads.append(Thread(target=task, args=(i,)))
+#     threads[i].start()
 
 # 每个线程都可以进行调度，主线程也可以执行，但是调度主要是靠 OS，所以每次执行的顺序大概率是不同的
 # 直到执行到 join 方法，会让主线程等待调用 join 的子线程执行完后才继续执行
-for i, t in enumerate(threads):
-    t.join()
-    print(f"{t}-{i}执行完成")
+# for i, t in enumerate(threads):
+#     t.join()
+#     print(f"{t}-{i}执行完成")
+#
+# end = perf_counter()
+#
+# print(f"Total time: {end - start}")
 
-end = perf_counter()
+# 真实的使用场景：替换文件中的内容
 
-print(f"Total time: {end - start}")
+def replace(filename, old_str, new_str):
+
+    with open(filename, "r") as f:
+        content = f.read()
+
+    new_content = content.replace(old_str, new_str)
+
+    with open(filename, "w") as f:
+        f.write(new_content)
+
+    print(f"Finished->{filename}")
+
+def main():
+
+    # 文件的所在位置
+    filenames = [
+        'c:/temp/test1.txt',
+        'c:/temp/test2.txt',
+        'c:/temp/test3.txt',
+        'c:/temp/test4.txt',
+        'c:/temp/test5.txt',
+        'c:/temp/test6.txt',
+        'c:/temp/test7.txt',
+        'c:/temp/test8.txt',
+        'c:/temp/test9.txt',
+        'c:/temp/test10.txt',
+    ]
+
+    # 为每个文件的操作创建一个线程
+    threads = [Thread(target=replace, args=(filename, "id", "ids")) for filename in filenames]
+
+    print("Started Excute Ten Threads")
+
+    start = perf_counter()
+
+    # 让 OS 调度创建好的线程
+    for thread in threads:
+        thread.start()
+
+    for thread in threads:
+        thread.join()
+
+    end = perf_counter()
+
+    print(f"Finished Excute Ten Threads By {end - start} second(s)")
+
+if __name__ == "__main__":
+    main()
