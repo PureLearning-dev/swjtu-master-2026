@@ -39,21 +39,82 @@ from time import sleep
 # Lock 可以用日常的锁来理解，当你进入一个房间后会对其上锁，出去后解锁，供另一个人使用
 # 当你进入房间并上锁后，其他人就无法进入房间了，此处的房间就是 “共享变量”
 
-counter = 0
+# counter = 0
+#
+# def increase(by, lock):
+#     global counter
+#     # 在访问 “共享变量” 前获取锁
+#     lock.acquire()
+#     local_counter = counter
+#     local_counter += by
+#     sleep(0.1)
+#     counter = local_counter
+#     # 在访问 “共享变量” 后释放锁
+#     lock.release()
+#
+# lock = Lock()
+#
+# with ThreadPoolExecutor() as executor:
+#     executor.map(lambda x: increase(x, lock), range(10))
 
-def increase(by, lock):
-    global counter
-    # 在访问 “共享变量” 前获取锁
-    lock.acquire()
-    local_counter = counter
-    local_counter += by
-    sleep(0.1)
-    counter = local_counter
-    # 在访问 “共享变量” 后释放锁
-    lock.release()
+# 上述的实现对于 lock 要进行获取和释放，我们可以对其进行优化，使用 with 语句自动释放资源则可
+# counter = 0
+#
+# def increase(by, lock):
+#     global counter
+#
+#     # 在 with lock 后自动获取 lock 资源，结束后自动释放 lock 资源
+#     with lock:
+#         local_counter = counter
+#         local_counter += by
+#
+#         sleep(0.1)
+#
+#         counter = local_counter
+#
+#     print(f'counter={counter}')
+#
+#
+# lock = Lock()
+#
+# t1 = Thread(target=increase, args=(10, lock))
+# t2 = Thread(target=increase, args=(20, lock))
+#
+# t1.start()
+# t2.start()
+#
+# t1.join()
+# t2.join()
+#
+# print(f'The final counter is {counter}')
 
-lock = Lock()
+# 当然，可以对其进一步抽象，抽象出一个类，在类中实现线程安全的方法
+class Counter:
+    def __init__(self):
+        self.lock = Lock()
+        self.count = 0
 
-with ThreadPoolExecutor() as executor:
-    executor.map(lambda x: increase(x, lock), range(10))
+    def increment(self, by):
+        with self.lock:
+            current_count = self.count
+            current_count += by
+            sleep(0.01)
+            self.count = current_count
+            print(f'counter={self.count}')
 
+def main():
+    counter = Counter()
+
+    t1 = Thread(target=counter.increment, args=(10, ))
+    t2 = Thread(target=counter.increment, args=(20, ))
+
+    t1.start()
+    t2.start()
+
+    t1.join()
+    t2.join()
+
+    print(f'The final counter is {counter.count}')
+
+if __name__ == '__main__':
+    main()
