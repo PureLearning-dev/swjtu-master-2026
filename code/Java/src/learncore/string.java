@@ -1,4 +1,4 @@
-package src.learncore;
+package learncore;
 
 import java.util.StringJoiner;
 
