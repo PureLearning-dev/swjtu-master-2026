@@ -34,5 +34,19 @@ public class regularexpression {
 
         // String 中的 split 和 replaceAll 都可以使用正则表达式
         // 这部分在需要使用的时候进行查阅才是合适的方法，并不需要现在完全熟练掌握
+
+        //判断一个字符串的开始字符和结束字符是否一致（只考虑一个字符）?
+        String regex1 = "(.).+\\1";
+
+        //判断一个字符串的开始部分和结束部分是否一致（可以有多个字符）?
+        String regex2 = "(.+).+\\1";
+
+        //判断一个字符串的开始部分和结束部分是否一致（开始部分内部每个字符也需要一致）?
+        String regex3 = "((.)\\2*).+\\1";
+
+        //需求:消除结巴，即 我要学学编编编编程程程程程程 变成 我要学编程
+        String str1 = "我要学学编编编编程程程程程程";
+        String result = str1.replaceAll("(.)\\1+", "$1");
+        System.out.println(result);
     }
 }
